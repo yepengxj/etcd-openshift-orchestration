@@ -18,7 +18,7 @@ spec:
         - http://sb-instanceid-etcd.app.asiainfodata.com:80
         - etcd3
         - http://sb-instanceid-etcd3:2380
-        image: quay.io/coreos/etcd:latest
+        image: 172.30.40.148:5000/datafoundry-servicebroker/etcd-openshift-orchestration:latest
         imagePullPolicy: IfNotPresent
         name: etcd3
         ports:
