@@ -18,8 +18,8 @@ spec:
         - http://sb-instanceid-etcd.app.asiainfodata.com:80
         - etcd3
         - http://sb-instanceid-etcd3:2380
-        image: 172.30.40.148:5000/datafoundry-servicebroker/etcd-openshift-orchestration:latest
-        imagePullPolicy: IfNotPresent
+        image: index.alauda.cn/asiainfoldp/etcd-openshift-orchestration
+        imagePullPolicy: Always
         name: etcd3
         ports:
         - containerPort: 2379
