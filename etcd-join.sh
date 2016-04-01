@@ -3,9 +3,10 @@
 
 echo "join" $2 "into" $1 "with" $3
 
+export ETCDCTL_ENDPOINT=$1
 
-etcdctl --endpoints $1 member remove $2
-eval `etcdctl --endpoints $1 member add $2 $3` 
+`etcdctl member remove $2 2>&1 |grep  "etcdctl member remove"`
+eval `etcdctl member add $2 $3` 
 etcd -name $2 -initial-advertise-peer-urls $3 -listen-peer-urls http://0.0.0.0:2380 -listen-client-urls http://0.0.0.0:2379 -advertise-client-urls $1 
 
 

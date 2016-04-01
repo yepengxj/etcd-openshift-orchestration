@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - command:
-        - etcd-join.sh
+        - sh 
+        - /usr/bin/etcd-join.sh
         - http://sb-instanceid-etcd.app.asiainfodata.com:80
         - etcd3
         - http://sb-instanceid-etcd3:2380
