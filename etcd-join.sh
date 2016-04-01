@@ -16,6 +16,7 @@ echo "----->add $2 $3"
 #`etcdctl member add $2 $3 | grep ETCD_INITIAL_CLUSTER |awk '{print "export " $0}'`
 export ETCD_INITIAL_CLUSTER_STATE=existing
 export ETCD_NAME=$2
+etcdctl member add $2 $3
 
 #sleep 30
 
