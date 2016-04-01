@@ -8,7 +8,7 @@ export ETCDCTL_ENDPOINT=$1
 echo "----->remove $2"
 `etcdctl member remove $2 2>&1 |grep  "etcdctl member remove"`
 sleep 5
-echo "----->add $2"
+echo "----->add $2 $3"
 `etcdctl member add $2 $3|grep ETCD |awk '{print "export " $0}'`
 sleep 5
 echo "----->start etcd"
