@@ -13,13 +13,15 @@ tmpnode=`etcdctl member list |grep $3|awk -F[ '{print $1}' `
 etcdctl member remove $tmpnode
 
 echo "----->add $2 $3"
-`etcdctl member add $2 $3 | grep ETCD_INITIAL_CLUSTER |awk '{print "export " $0}'`
+#`etcdctl member add $2 $3 | grep ETCD_INITIAL_CLUSTER |awk '{print "export " $0}'`
 export ETCD_INITIAL_CLUSTER_STATE=existing
 export ETCD_NAME=$2
 
-sleep 30
+#sleep 30
 
 echo "----->start etcd"
-etcd -initial-cluster-token $4 -initial-advertise-peer-urls $3 -listen-peer-urls http://0.0.0.0:2380 -listen-client-urls http://0.0.0.0:2379 -advertise-client-urls $1 
+#etcd -initial-cluster-token $4 -initial-advertise-peer-urls $3 -listen-peer-urls http://0.0.0.0:2380 -listen-client-urls http://0.0.0.0:2379 -advertise-client-urls $1 
+
+etcd -initial-cluster etcd0=http://sb-instanceid-etcd0:2380,etcd3=http://sb-instanceid-etcd3:2380,etcd2=http://sb-instanceid-etcd2:2380,etcd1=http://sb-instanceid-etcd1:2380 -initial-cluster-token $4 -initial-advertise-peer-urls $3 -listen-peer-urls http://0.0.0.0:2380 -listen-client-urls http://0.0.0.0:2379 -advertise-client-urls $1 
 
 
