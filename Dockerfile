@@ -4,4 +4,4 @@ RUN curl -L  https://github.com/coreos/etcd/releases/download/v2.3.0/etcd-v2.3.0
 RUN mv /etcd-v2.3.0-linux-amd64/* /usr/bin
 ADD . /usr/bin
 
-ENTRYPOINT ["sh -c"]
+ENTRYPOINT ["/bin/sh -c"]
