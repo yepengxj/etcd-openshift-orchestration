@@ -1,7 +1,7 @@
 # $1 $2 $3 $4
 # endpoints newnode initial-advertise-peer-urls sb-instanceid-etcd
 
-echo "----->join" $2 "into" $1 "with" $3
+echo "----->join" $2 "into" $1 "with" $3  "use id " $4
 
 export ETCDCTL_ENDPOINT=$1
 

@@ -19,6 +19,7 @@ spec:
         - http://sb-instanceid-etcd.app.asiainfodata.com:80
         - etcd3
         - http://sb-instanceid-etcd3:2380
+        - sb-instanceid-etcd
         image: 172.30.40.148:5000/datafoundry-servicebroker/etcd-openshift-orchestration:latest
         imagePullPolicy: Always
         name: etcd3
