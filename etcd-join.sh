@@ -1,18 +1,19 @@
-# $1 $2 $3 $4
-# endpoints newnode initial-advertise-peer-urls sb-instanceid-etcd
+# $1 endpoints
+# $2 newnode 
+# $3 initial-advertise-peer-urls 
+# $4 sb-instanceid-etcd
+# $5 rootpasswd
 
 echo "----->join" $2 "into" $1 "with" $3  "use id " $4
 
 export ETCDCTL_ENDPOINT=$1
 
-echo "----->remove $2"
-`etcdctl member remove $2 2>&1 |grep  "etcdctl member remove"`
-
-tmpnode=`etcdctl member list |grep $3|awk -F[ '{print $1}' `
-etcdctl member remove $tmpnode
+echo "----->remove $3"
+tmpnode=`etcdctl -u root:$5 member list |grep $3|awk -F[ '{print $1}' `
+etcdctl -u root:$5 member remove $tmpnode
 
 echo "----->add $2 $3"
-eval `etcdctl member add $2 $3 | grep ETCD_INITIAL_CLUSTER`
+eval `etcdctl -u root:$5 member add $2 $3 | grep ETCD_INITIAL_CLUSTER`
 export ETCD_INITIAL_CLUSTER_STATE=existing
 export ETCD_NAME=$2
 
