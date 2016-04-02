@@ -1,3 +1,6 @@
+#需要替换intanceid 实例的具体名字
+#需要替换test1234 etcd管理员的密码
+
 apiVersion: v1
 kind: ReplicationController
 metadata:
@@ -20,6 +23,7 @@ spec:
         - etcd1
         - http://sb-instanceid-etcd1:2380
         - sb-instanceid-etcd
+        - test1234
         image: 172.30.40.148:5000/datafoundry-servicebroker/etcd-openshift-orchestration:latest
         imagePullPolicy: Always
         name: etcd1
@@ -73,6 +77,7 @@ spec:
         - etcd2
         - http://sb-instanceid-etcd2:2380
         - sb-instanceid-etcd
+        - test1234
         image: 172.30.40.148:5000/datafoundry-servicebroker/etcd-openshift-orchestration:latest
         imagePullPolicy: Always
         name: etcd3
@@ -127,6 +132,7 @@ spec:
         - etcd3
         - http://sb-instanceid-etcd3:2380
         - sb-instanceid-etcd
+        - test1234
         image: 172.30.40.148:5000/datafoundry-servicebroker/etcd-openshift-orchestration:latest
         imagePullPolicy: Always
         name: etcd3
