@@ -59,6 +59,7 @@ spec:
     livenessProbe:
       exec:
         command:
+        - /bin/sh
         - /usr/bin/cluster_status.sh
         - "000000"
       initialDelaySeconds: 30
