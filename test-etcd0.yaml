@@ -59,8 +59,9 @@ spec:
     livenessProbe:
       exec:
         command:
-        - /usr/bin/bash/cluster_status.sh
+        - /usr/bin/cluster_status.sh
         - "000000"
+      initialDelaySeconds: 30
     ports:
     - containerPort: 2379
       name: client
