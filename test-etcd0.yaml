@@ -36,23 +36,13 @@ metadata:
 spec:
   containers:
   - command:
-    - etcd
-    - -name
-    - etcd0
-    - -initial-advertise-peer-urls
+    - sh
+    - /usr/bin/etcd-init.sh 
+    - rootpassword
     - http://sb-ddddddddddd-etcd0:2380
-    - -listen-peer-urls
-    - http://0.0.0.0:2380
-    - -listen-client-urls
-    - http://0.0.0.0:2379
-    - -advertise-client-urls
     - http://sb-ddddddddddd-etcd.app-test.dataos.io:80
-    - -initial-cluster-token 
     - sb-ddddddddddd-etcd
-    - -initial-cluster
-    - etcd0=http://sb-ddddddddddd-etcd0:2380
-    - -initial-cluster-state
-    - new
+    - guestpassword
     image: 172.30.163.250:5000/test111/etcd-openshift-orchestration
     imagePullPolicy: IfNotPresent
     name: etcd0
@@ -61,7 +51,7 @@ spec:
         command:
         - /bin/sh
         - /usr/bin/cluster_status.sh
-        - "000000"
+        - "rootpassword"
       initialDelaySeconds: 30
     ports:
     - containerPort: 2379

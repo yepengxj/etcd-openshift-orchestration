@@ -1,31 +1,75 @@
 #需要替换intanceid 实例的具体名字
-#需要替换test1234 etcd管理员的密码
+#需要替换rootpassword etcd管理员的密码
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: sb-ddddddddddd-etcd
+spec:
+  ports:
+  - name: etcd-client-port
+    port: 2379
+    protocol: TCP
+    targetPort: 2379
+  selector:
+    servicebroker: ddddddddddd-etcd
+
+---
+
+#Route to client
+apiVersion: v1
+kind: Route
+metadata:
+  name: sb-ddddddddddd-etcd
+spec:
+  host: sb-ddddddddddd-etcd.app.asiainfodata.com
+  port:
+    targetPort: etcd-client-port
+  to:
+    kind: Service
+    name: sb-ddddddddddd-etcd
+
+---
+
+
 
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: sb-instanceid-etcd1
+  name: sb-ddddddddddd-etcd1
 spec:
   replicas: 1
   selector:
-    servicebroker_etcd_node: instanceid-etcd1
+    servicebroker_etcd_node: ddddddddddd-etcd1
   template:
     metadata:
       labels:
-        servicebroker_etcd_node: instanceid-etcd1
-        servicebroker: instanceid-etcd
+        servicebroker_etcd_node: ddddddddddd-etcd1
+        servicebroker: ddddddddddd-etcd
     spec:
       containers:
       - command:
         - sh 
         - /usr/bin/etcd-join.sh
-        - http://sb-instanceid-etcd.app.asiainfodata.com:80
+        - http://sb-ddddddddddd-etcd.app-test.dataos.io:80
         - etcd1
-        - http://sb-instanceid-etcd1:2380
-        - sb-instanceid-etcd
-        - test1234
-        image: 172.30.40.148:5000/datafoundry-servicebroker/etcd-openshift-orchestration:latest
+        - http://sb-ddddddddddd-etcd1:2380
+        - sb-ddddddddddd-etcd
+        - rootpassword
+        image: 172.30.163.250:5000/test111/etcd-openshift-orchestration:latest
         imagePullPolicy: Always
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - /usr/bin/cluster_status.sh
+            - "rootpassword"
+        lifecycle:
+          postStart:
+            httpGet:
+              path: /members
+              port: 2380
+              host: sb-ddddddddddd-etcd0
         name: etcd1
         ports:
         - containerPort: 2379
@@ -40,7 +84,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sb-instanceid-etcd1
+  name: sb-ddddddddddd-etcd1
 spec:
   ports:
   - name: client
@@ -52,35 +96,47 @@ spec:
     protocol: TCP
     targetPort: 2380
   selector:
-    servicebroker_etcd_node: instanceid-etcd1
+    servicebroker_etcd_node: ddddddddddd-etcd1
 
 ---
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: sb-instanceid-etcd2
+  name: sb-ddddddddddd-etcd2
 spec:
   replicas: 1
   selector:
-    servicebroker_etcd_node: instanceid-etcd2
+    servicebroker_etcd_node: ddddddddddd-etcd2
   template:
     metadata:
       labels:
-        servicebroker_etcd_node: instanceid-etcd2
-        servicebroker: instanceid-etcd
+        servicebroker_etcd_node: ddddddddddd-etcd2
+        servicebroker: ddddddddddd-etcd
     spec:
       containers:
       - command:
         - sh 
         - /usr/bin/etcd-join.sh
-        - http://sb-instanceid-etcd.app.asiainfodata.com:80
+        - http://sb-ddddddddddd-etcd.app-test.dataos.io:80
         - etcd2
-        - http://sb-instanceid-etcd2:2380
-        - sb-instanceid-etcd
-        - test1234
-        image: 172.30.40.148:5000/datafoundry-servicebroker/etcd-openshift-orchestration:latest
+        - http://sb-ddddddddddd-etcd2:2380
+        - sb-ddddddddddd-etcd
+        - rootpassword
+        image: 172.30.163.250:5000/test111/etcd-openshift-orchestration:latest
         imagePullPolicy: Always
         name: etcd3
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - /usr/bin/cluster_status.sh
+            - "rootpassword"
+        lifecycle:
+          postStart:
+            httpGet:
+              path: /members
+              port: 2380
+              host: sb-ddddddddddd-etcd0
         ports:
         - containerPort: 2379
           name: client
@@ -94,7 +150,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sb-instanceid-etcd2
+  name: sb-ddddddddddd-etcd2
 spec:
   ports:
   - name: client
@@ -106,34 +162,46 @@ spec:
     protocol: TCP
     targetPort: 2380
   selector:
-    servicebroker_etcd_node: instanceid-etcd2
+    servicebroker_etcd_node: ddddddddddd-etcd2
 
 ---
 
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: sb-instanceid-etcd3
+  name: sb-ddddddddddd-etcd3
 spec:
   replicas: 1
   selector:
-    servicebroker_etcd_node: instanceid-etcd3
+    servicebroker_etcd_node: ddddddddddd-etcd3
   template:
     metadata:
       labels:
-        servicebroker_etcd_node: instanceid-etcd3
-        servicebroker: instanceid-etcd
+        servicebroker_etcd_node: ddddddddddd-etcd3
+        servicebroker: ddddddddddd-etcd
     spec:
       containers:
       - command:
         - sh 
         - /usr/bin/etcd-join.sh
-        - http://sb-instanceid-etcd.app.asiainfodata.com:80
+        - http://sb-ddddddddddd-etcd.app-test.dataos.io:80
         - etcd3
-        - http://sb-instanceid-etcd3:2380
-        - sb-instanceid-etcd
-        - test1234
-        image: 172.30.40.148:5000/datafoundry-servicebroker/etcd-openshift-orchestration:latest
+        - http://sb-ddddddddddd-etcd3:2380
+        - sb-ddddddddddd-etcd
+        - rootpassword
+        image: 172.30.163.250:5000/test111/etcd-openshift-orchestration:latest
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - /usr/bin/cluster_status.sh
+            - "rootpassword"
+        lifecycle:
+          postStart:
+            httpGet:
+              path: /members
+              port: 2380
+              host: sb-ddddddddddd-etcd0
         imagePullPolicy: Always
         name: etcd3
         ports:
@@ -149,7 +217,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sb-instanceid-etcd3
+  name: sb-ddddddddddd-etcd3
 spec:
   ports:
   - name: client
@@ -161,7 +229,66 @@ spec:
     protocol: TCP
     targetPort: 2380
   selector:
-    servicebroker_etcd_node: instanceid-etcd3
+    servicebroker_etcd_node: ddddddddddd-etcd3
 
 
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: sb-ddddddddddd-etcd0
+spec:
+  replicas: 1
+  selector:
+    servicebroker_etcd_node: ddddddddddd-etcd0
+  template:
+    metadata:
+      labels:
+        servicebroker_etcd_node: ddddddddddd-etcd0
+        servicebroker: ddddddddddd-etcd
+    spec:
+      containers:
+      - command:
+        - sh
+        - /usr/bin/etcd-init.sh
+        - rootpassword
+        - http://sb-ddddddddddd-etcd0:2380
+        - http://sb-ddddddddddd-etcd.app-test.dataos.io:80
+        - sb-ddddddddddd-etcd
+        - guestpassword
+        image: 172.30.163.250:5000/test111/etcd-openshift-orchestration:latest
+        imagePullPolicy: Always
+        name: etcd0
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - /usr/bin/cluster_status.sh
+            - "rootpassword"
+        ports:
+        - containerPort: 2379
+          name: client
+          protocol: TCP
+        - containerPort: 2380
+          name: server
+          protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: sb-ddddddddddd-etcd0
+spec:
+  ports:
+  - name: client
+    port: 2379
+    protocol: TCP
+    targetPort: 2379
+  - name: server
+    port: 2380
+    protocol: TCP
+    targetPort: 2380
+  selector:
+    servicebroker_etcd_node: ddddddddddd-etcd0
 
