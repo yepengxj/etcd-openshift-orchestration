@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sb-ddddddddddd-etcd
+spec:
+  ports:
+  - name: etcd-client-port
+    port: 2379
+    protocol: TCP
+    targetPort: 2379
+  selector:
+    servicebroker: ddddddddddd-etcd
+
+---
+
+apiVersion: v1
+kind: Route
+metadata:
+  name: sb-ddddddddddd-etcd
+spec:
+  host: sb-ddddddddddd-etcd.app-test.dataos.io
+  port:
+    targetPort: etcd-client-port
+  to:
+    kind: Service
+    name: sb-ddddddddddd-etcd
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    servicebroker_etcd_node: ddddddddddd-etcd0
+    servicebroker: ddddddddddd-etcd
+  name: sb-ddddddddddd-etcd0
+spec:
+  containers:
+  - command:
+    - etcd
+    - -name
+    - etcd0
+    - -initial-advertise-peer-urls
+    - http://sb-ddddddddddd-etcd0:2380
+    - -listen-peer-urls
+    - http://0.0.0.0:2380
+    - -listen-client-urls
+    - http://0.0.0.0:2379
+    - -advertise-client-urls
+    - http://sb-ddddddddddd-etcd.app-test.dataos.io:80
+    - -initial-cluster-token 
+    - sb-ddddddddddd-etcd
+    - -initial-cluster
+    - etcd0=http://sb-ddddddddddd-etcd0:2380
+    - -initial-cluster-state
+    - new
+    image: 172.30.163.250:5000/test111/etcd-openshift-orchestration
+    imagePullPolicy: IfNotPresent
+    name: etcd0
+    ports:
+    - containerPort: 2379
+      name: client
+      protocol: TCP
+    - containerPort: 2380
+      name: server
+      protocol: TCP
+  restartPolicy: Never
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: sb-ddddddddddd-etcd0
+spec:
+  ports:
+  - name: client
+    port: 2379
+    protocol: TCP
+    targetPort: 2379
+  - name: server
+    port: 2380
+    protocol: TCP
+    targetPort: 2380
+  selector:
+    servicebroker_etcd_node: ddddddddddd-etcd0
