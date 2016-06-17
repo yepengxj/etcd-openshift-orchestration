@@ -1,16 +1,6 @@
-#创建root用户密码，并回收guest权限，添加bind用户权限
-# $1 rootpassword
-
-# $2 \
-# http://sb-ddddddddddd-etcd0:2380 \
-# http://sb-ddddddddddd-etcd.app-test.dataos.io:80 \
-# $3 \
-# sb-ddddddddddd-etcd \
-# $4 \
-# $5
-
 member_count=$(etcdctl -u root:$1 member list |wc -l)
 echo member_count: $member_count
+export ETCDCTL_ENDPOINT=$3
 if [ $member_count == 0 ];then
      echo "0"
     etcd -name \
