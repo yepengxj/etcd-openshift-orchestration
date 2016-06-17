@@ -22,7 +22,7 @@ kind: Route
 metadata:
   name: sb-ddddddddddd-etcd
 spec:
-  host: sb-ddddddddddd-etcd.app.asiainfodata.com
+  host: sb-ddddddddddd-etcd.app.dataos.io
   port:
     targetPort: etcd-client-port
   to:
@@ -51,26 +51,20 @@ spec:
       - command:
         - sh 
         - /usr/bin/etcd-join.sh
-        - http://sb-ddddddddddd-etcd.app-test.dataos.io:80
+        - http://sb-ddddddddddd-etcd.app.dataos.io:80
         - etcd1
         - http://sb-ddddddddddd-etcd1:2380
         - sb-ddddddddddd-etcd
         - rootpassword
-        image: 172.30.163.250:5000/test111/etcd-openshift-orchestration:latest
+        image: 172.30.188.59:5000/yepeng/etcd-openshift-orchestration:latest
         imagePullPolicy: Always
+        name: etcd1
         livenessProbe:
           exec:
             command:
             - /bin/sh
             - /usr/bin/cluster_status.sh
-            - "rootpassword"
-        lifecycle:
-          postStart:
-            httpGet:
-              path: /members
-              port: 2380
-              host: sb-ddddddddddd-etcd0
-        name: etcd1
+            - rootpassword
         ports:
         - containerPort: 2379
           name: client
@@ -117,26 +111,20 @@ spec:
       - command:
         - sh 
         - /usr/bin/etcd-join.sh
-        - http://sb-ddddddddddd-etcd.app-test.dataos.io:80
+        - http://sb-ddddddddddd-etcd.app.dataos.io:80
         - etcd2
         - http://sb-ddddddddddd-etcd2:2380
         - sb-ddddddddddd-etcd
         - rootpassword
-        image: 172.30.163.250:5000/test111/etcd-openshift-orchestration:latest
+        image: 172.30.188.59:5000/yepeng/etcd-openshift-orchestration:latest
         imagePullPolicy: Always
-        name: etcd3
         livenessProbe:
           exec:
             command:
             - /bin/sh
             - /usr/bin/cluster_status.sh
-            - "rootpassword"
-        lifecycle:
-          postStart:
-            httpGet:
-              path: /members
-              port: 2380
-              host: sb-ddddddddddd-etcd0
+            - rootpassword
+        name: etcd3
         ports:
         - containerPort: 2379
           name: client
@@ -184,24 +172,18 @@ spec:
       - command:
         - sh 
         - /usr/bin/etcd-join.sh
-        - http://sb-ddddddddddd-etcd.app-test.dataos.io:80
+        - http://sb-ddddddddddd-etcd.app.dataos.io:80
         - etcd3
         - http://sb-ddddddddddd-etcd3:2380
         - sb-ddddddddddd-etcd
         - rootpassword
-        image: 172.30.163.250:5000/test111/etcd-openshift-orchestration:latest
+        image: 172.30.188.59:5000/yepeng/etcd-openshift-orchestration:latest
         livenessProbe:
           exec:
             command:
             - /bin/sh
             - /usr/bin/cluster_status.sh
-            - "rootpassword"
-        lifecycle:
-          postStart:
-            httpGet:
-              path: /members
-              port: 2380
-              host: sb-ddddddddddd-etcd0
+            - rootpassword
         imagePullPolicy: Always
         name: etcd3
         ports:
@@ -253,18 +235,18 @@ spec:
         - /usr/bin/etcd-init.sh
         - rootpassword
         - http://sb-ddddddddddd-etcd0:2380
-        - http://sb-ddddddddddd-etcd.app-test.dataos.io:80
+        - http://sb-ddddddddddd-etcd.app.dataos.io:80
         - sb-ddddddddddd-etcd
         - guestpassword
-        image: 172.30.163.250:5000/test111/etcd-openshift-orchestration:latest
-        imagePullPolicy: Always
-        name: etcd0
+        image: 172.30.188.59:5000/yepeng/etcd-openshift-orchestration:latest
         livenessProbe:
           exec:
             command:
             - /bin/sh
             - /usr/bin/cluster_status.sh
-            - "rootpassword"
+            - rootpassword
+        imagePullPolicy: Always
+        name: etcd0
         ports:
         - containerPort: 2379
           name: client
