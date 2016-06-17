@@ -47,6 +47,7 @@ else
     echo "----->remove $2"
     etcdctl -u root:$1 member list
     tmpnode=`etcdctl -u root:$1 member list |grep $2|awk -F ':' '{print $1}'|awk -F '[' '{print $1}' ` 
+    echo "node removed:" $tmpnode
     etcdctl -u root:$1 member remove $tmpnode
 
     echo "----->add $2 $3"
