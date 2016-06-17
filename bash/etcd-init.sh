@@ -49,11 +49,12 @@ else
     etcdctl -u root:$1 member remove $tmpnode
 
     echo "----->add $2 $3"
-    eval `etcdctl -u root:$1 member add etcd0 $3 | grep ETCD_INITIAL_CLUSTER`
+    eval `etcdctl -u root:$1 member add etcd0 $2 | grep ETCD_INITIAL_CLUSTER`
     export ETCD_INITIAL_CLUSTER_STATE=existing
     export ETCD_NAME=etcd0
 
     echo "----->start etcd"
+    echo ETCD_INITIAL_CLUSTER:"$ETCD_INITIAL_CLUSTER"
     etcd -initial-cluster $ETCD_INITIAL_CLUSTER -initial-cluster-token $4 -initial-advertise-peer-urls $2 -listen-peer-urls http://0.0.0.0:2380 -listen-client-urls http://0.0.0.0:2379 -advertise-client-urls $3
 fi
 
