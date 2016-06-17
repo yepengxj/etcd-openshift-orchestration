@@ -49,7 +49,7 @@ else
     etcdctl -u root:$1 member remove $tmpnode
 
     echo "----->add $2 $3"
-    eval `etcdctl -u root:$5 member add etcd0 $2 | grep ETCD_INITIAL_CLUSTER`
+    eval `etcdctl -u root:$5 member add etcd0 $3 | grep ETCD_INITIAL_CLUSTER`
     export ETCD_INITIAL_CLUSTER_STATE=existing
     export ETCD_NAME=etcd0
 
