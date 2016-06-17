@@ -1,6 +1,6 @@
+export ETCDCTL_ENDPOINT=$3
 member_count=$(etcdctl -u root:$1 member list |wc -l)
 echo member_count: $member_count
-export ETCDCTL_ENDPOINT=$3
 if [ $member_count == 0 ];then
      echo "0"
     etcd -name \
