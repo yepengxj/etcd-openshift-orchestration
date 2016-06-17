@@ -53,6 +53,7 @@ else
     eval `etcdctl -u root:$1 member add etcd0 $2 | grep ETCD_INITIAL_CLUSTER`
     export ETCD_INITIAL_CLUSTER_STATE=existing
     export ETCD_NAME=etcd0
+    etcdctl -u root:$1 member list
 
     echo "----->start etcd"
     echo ETCD_INITIAL_CLUSTER:"$ETCD_INITIAL_CLUSTER"
