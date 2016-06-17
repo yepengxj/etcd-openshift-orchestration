@@ -45,7 +45,8 @@ else
     export ETCDCTL_ENDPOINT=$3
 
     echo "----->remove $2"
-    tmpnode=`etcdctl -u root:$1 member list |grep $2|awk -F: '{print $1}' `
+    etcdctl -u root:$1 member list
+    tmpnode=`etcdctl -u root:$1 member list |grep $2|awk -F: '{print $1}' | cut -c -16 ` 
     etcdctl -u root:$1 member remove $tmpnode
 
     echo "----->add $2 $3"
