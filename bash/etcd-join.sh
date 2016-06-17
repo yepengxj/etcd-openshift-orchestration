@@ -9,7 +9,7 @@ echo "----->join" $2 "into" $1 "with" $3  "use id " $4
 export ETCDCTL_ENDPOINT=$1
 
 echo "----->remove $3"
-tmpnode=`etcdctl -u root:$5 member list |grep $3|awk -F: '{print $1}' | cut -c -16 `
+tmpnode=`etcdctl -u root:$5 member list |grep $3|awk -F ':' '{print $1}'|awk -F '[' '{print $1}' `
 etcdctl -u root:$5 member remove $tmpnode
 
 echo "----->add $2 $3"
