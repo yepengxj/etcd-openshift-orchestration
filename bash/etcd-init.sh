@@ -52,15 +52,6 @@ if [ $member_count == 0  ]; then
         EOF
 
 else
-# $1 rootpassword
-
-# $2 \
-# http://sb-ddddddddddd-etcd0:2380 \
-# http://sb-ddddddddddd-etcd.app-test.dataos.io:80 \
-# $3 \
-# sb-ddddddddddd-etcd \
-# $4 \
-# $5
         echo 1
         export ETCDCTL_ENDPOINT=$3
 
@@ -75,5 +66,5 @@ else
 
         echo "----->start etcd"
         etcd -initial-cluster $ETCD_INITIAL_CLUSTER -initial-cluster-token $4 -initial-advertise-peer-urls $2 -listen-peer-urls http://0.0.0.0:2380 -listen-client-urls http://0.0.0.0:2379 -advertise-client-urls $3
- fi
+fi
 
