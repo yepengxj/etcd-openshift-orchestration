@@ -31,13 +31,13 @@ EOF
 
     etcdctl -u root:$1 role grant binduser -path '/*' -readwrite
 
-    etcdctl -u root:$3 user add $1 << EOF
+    etcdctl -u root:$1 user add $1 << EOF
     $5
 EOF
 
-    etcdctl -u root:$3 user grant $1 -roles binduser
+    etcdctl -u root:$1 user grant guestuser -roles binduser
 
-    etcdctl -u root:$3 user passwd $1 << EOF
+    etcdctl -u root:$1 user passwd guestuser << EOF
     $5
 EOF
 else
@@ -45,11 +45,11 @@ else
     export ETCDCTL_ENDPOINT=$3
 
     echo "----->remove $2"
-    tmpnode=`etcdctl -u root:$5 member list |grep $2|awk -F: '{print $1}' `
+    tmpnode=`etcdctl -u root:$1 member list |grep $2|awk -F: '{print $1}' `
     etcdctl -u root:$1 member remove $tmpnode
 
     echo "----->add $2 $3"
-    eval `etcdctl -u root:$5 member add etcd0 $3 | grep ETCD_INITIAL_CLUSTER`
+    eval `etcdctl -u root:$1 member add etcd0 $3 | grep ETCD_INITIAL_CLUSTER`
     export ETCD_INITIAL_CLUSTER_STATE=existing
     export ETCD_NAME=etcd0
 
