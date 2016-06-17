@@ -238,6 +238,7 @@ spec:
         - http://sb-ddddddddddd-etcd.app.dataos.io:80
         - sb-ddddddddddd-etcd
         - guestpassword
+        - etcd0
         image: 172.30.188.59:5000/yepeng/etcd-openshift-orchestration:latest
         livenessProbe:
           exec:

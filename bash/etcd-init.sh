@@ -4,7 +4,7 @@ echo member_count: $member_count
 if [ $member_count == 0 ];then
      echo "0"
     etcd -name \
-     etcd0 \
+     $6 \
      -initial-advertise-peer-urls \
      $2 \
      -listen-peer-urls \
@@ -16,7 +16,7 @@ if [ $member_count == 0 ];then
      -initial-cluster-token \
      $4 \
      -initial-cluster \
-     etcd0=$2 \
+     $6=$2 \
      -initial-cluster-state \
      new
     etcdctl user add root << EOF
@@ -51,9 +51,9 @@ else
     etcdctl -u root:$1 member remove $tmpnode
 
     echo "----->add $2 $3"
-    eval `etcdctl -u root:$1 member add etcd0 $2 | grep ETCD_INITIAL_CLUSTER`
+    eval `etcdctl -u root:$1 member add $6 $2 | grep ETCD_INITIAL_CLUSTER`
     export ETCD_INITIAL_CLUSTER_STATE=existing
-    export ETCD_NAME=etcd0
+    export ETCD_NAME=$6
     etcdctl -u root:$1 member list
 
     echo "----->start etcd"
