@@ -11,7 +11,7 @@
 
 member_count=$(etcdctl -u root:$1 member list |wc -l)
 echo member_count: $member_count
-if [[$member_count -eq 0]];then
+if [["$member_count" -eq "0"]];then
      echo 0
     etcd -name \
      etcd0 \
