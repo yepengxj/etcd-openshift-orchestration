@@ -7,4 +7,4 @@ if [ "$cluster_status"x = "unhealthy"x ]; then
 exit 1
 fi
 
-#curl $2
+curl $2

@@ -65,6 +65,7 @@ spec:
             - /bin/sh
             - /usr/bin/cluster_status.sh
             - rootpassword
+            - http://sb-ddddddddddd-etcd0:2380
         ports:
         - containerPort: 2379
           name: client
@@ -124,6 +125,7 @@ spec:
             - /bin/sh
             - /usr/bin/cluster_status.sh
             - rootpassword
+            - http://sb-ddddddddddd-etcd0:2380
         name: etcd3
         ports:
         - containerPort: 2379
@@ -184,6 +186,7 @@ spec:
             - /bin/sh
             - /usr/bin/cluster_status.sh
             - rootpassword
+            - http://sb-ddddddddddd-etcd0:2380
         imagePullPolicy: Always
         name: etcd3
         ports:
@@ -246,6 +249,7 @@ spec:
             - /bin/sh
             - /usr/bin/cluster_status.sh
             - rootpassword
+            - http://sb-ddddddddddd-etcd0:2380
         imagePullPolicy: Always
         name: etcd0
         ports:
